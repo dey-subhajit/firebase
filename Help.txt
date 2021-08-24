@@ -1,0 +1,9 @@
+2nd gradele for dependency
+
+1st for class or app
+
+Fire base tree based
+
+https://console.firebase.google.com/project/demodatabaseapk/database/demodatabaseapk-default-rtdb/data
+
+https://firebase.google.com/docs/database/android/start?authuser=0#java
