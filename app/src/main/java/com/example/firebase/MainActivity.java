@@ -3,6 +3,7 @@ package com.example.firebase;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
 
     TextInputEditText et_name, et_phone_no, et_address;
-    Button btn_save;
+    Button btn_save, btn_show;
     FirebaseDatabase fd;
     DatabaseReference dr;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         et_phone_no = findViewById(R.id.et_phone_no);
         et_address = findViewById(R.id.et_address);
         btn_save = findViewById(R.id.btn_save);
+        btn_show = findViewById(R.id.btn_show);
 
         fd = FirebaseDatabase.getInstance();
         dr = fd.getReference("Employee");
@@ -43,6 +45,14 @@ public class MainActivity extends AppCompatActivity {
                 phone = et_phone_no.getText().toString();
                 address = et_address.getText().toString();
                 createNewData(name, phone, address);
+            }
+        });
+
+        btn_show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, ShowEmployee.class);
+                startActivity(i);
             }
         });
     }
