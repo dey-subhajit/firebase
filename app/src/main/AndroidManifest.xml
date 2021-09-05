@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FireBase">
         <activity
+            android:name=".EditData"
+            android:exported="true" />
+        <activity
             android:name=".ShowEmployee"
             android:exported="true" />
         <activity

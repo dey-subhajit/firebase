@@ -1,13 +1,18 @@
 package com.example.firebase;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -96,6 +101,47 @@ public class ShowEmployee extends AppCompatActivity {
             show_phone_no.setText(employeeList.get(i).getPhone_number());
             TextView show_adress = row.findViewById(R.id.show_adress);
             show_adress.setText(employeeList.get(i).getAddress());
+
+            Button edit = row.findViewById(R.id.edit);
+            ImageButton delete = row.findViewById(R.id.delete);
+
+            edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ShowEmployee.this, EditData.class);
+                    intent.putExtra("name", employeeList.get(i).getName());
+                    intent.putExtra("ph_no", employeeList.get(i).getPhone_number());
+                    intent.putExtra("address", employeeList.get(i).getAddress());
+                    startActivity(intent);
+                }
+            });
+
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String PhoneNo = employeeList.get(i).getPhone_number();
+                    AlertDialog.Builder dilog = new AlertDialog.Builder(ShowEmployee.this);
+                    dilog.setTitle("Confirm Delete");
+                    dilog.setMessage("Are you sure to delete "+PhoneNo+" record?");
+                    dilog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dilog.setCancelable(true);
+                            FirebaseDatabase fd = FirebaseDatabase.getInstance();
+                            DatabaseReference dr = fd.getReference("Employee");
+                            dr.child(PhoneNo).removeValue();
+                            Toast.makeText(ShowEmployee.this, "Delete successfully", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    dilog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dilog.setCancelable(true);
+                        }
+                    });
+                    dilog.show();
+                }
+            });
             return row;
         }
     }
